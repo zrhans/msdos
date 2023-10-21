@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+101,2008,184,1830,2,0,0,13.69,95,13.43,89.7,14,90,0,45.96,0.307,28.02
+<COD></COD>
+<ANO></ANO>
+<DJ></DJ>
+<HHMM></HHMM>
+<SS></SS>
+<VBAT></VBAT>
+<TPANEL></TPANEL>
+<T01></T01>
+<RH01></RH01>
+<T02></T02>
+<RH02></RH02>
+<T03></T03>
+<RH03></RH03>
+<VEL></VEL>
+<DIR></DIR>
+<H20S></H20S>
+<PAUS></PAUS>
+<TS01></TS01>
+<TS02></TS02>
+-->
+<root>
+	<data>
+		<date>2007-05-31</date>
+		<open>43.95</open>
+		<high>44.92</high>
+		<low>43.65</low>
+		<close>44.06</close>
+		<volume>8692438</volume>
+	</data>
+</root>

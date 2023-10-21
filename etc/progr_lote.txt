@@ -1,0 +1,471 @@
+
+ 
+Snap Shots Options [Make this Shot larger] [Close]
+Options
+Disable
+Get Free Shots
+  
+ 
+Close
+Snap Shares for charity
+DTH
+Aprenda a programar em .bat
+
+
+
+Introdução
+
+Antes de tudo, indicar o porquê os processos são chamados batch. A razão por ele se chamar bat é porque no ms-dos requere-se como máximo três letras na extensão e por tanto os arquivos tem a extensão .bat
+
+O que se pode fazer com eles?
+
+Pode fazer de forma automatizada tudo aquilo que se pode fazer no console do ms-dos.
+
+Como faça um arquivo bat?
+
+Coloque em texto. Apenas decidir onde colocar, pode colocá-lo no bloco de notas ou algum editor ascii.
+
+Ao guardá-los devem ter a notação de nomes próprios do ms-dos. Este nome com no máximo 8 letras (espaço e \ não são permitidos) logo um ponto e a extensão que neste caso é obrigatoriamente bat.
+
+Como posso selecionar vários arquivos;
+
+Para ele tem que se levar em conta os nomes dos arquivos, devem cumprir a notação do ms-dos (8 letras sem espaço como máximo, logo um ponto e três letras como máximo da extensão. Pode se utilizar os comandos;
+
+*Equivale a vários caracteres.
+?Equivale a apenas um caracter.
+
+Exemplos
+
+comando *.doc -> selecionar todos os arquivos que tenham a extensão doc.
+comando a*.doc -> selecionar todos os arquivos que comecem por a e tenha a extensão doc.
+comando a*b.doc -> selecionar todos os arquivos que comecem por a, acabem por b e tenham a extensão doc.
+comando *mao*.doc -> selecionar todos os arquivos que contenham ‘mao’ e tenham a extensão doc.
+comando c?mao.doc -> selecionar todos os arquivos que contenham ‘c’, logo um carater qualquer e logo ‘mao’. Deve ter tambem a extensão doc.
+comando c?b*.* -> selecionar todos os arquivos que comecem por ‘c’, tenham um caracter qualquer, logo um b e qualquer extensão.
+comando *.b?t -> selecionar todos os arquivos que tenham a extensão que comece por b, logo um caracter qualquer e logo um t.
+Quem são as trajetórias e os patchs;
+
+A trajetória é o nome completo de um arquivo e indica a situação exata de um arquivo e seu nome.
+
+Se digo que o arquivo se chama arquivo.txt indico seu nome, mas nada mais. Se supoe que se encontra no diretório atual.
+
+Se digo c:\arquivo.txt indico que o arquivo que me interesse se chama arquivo.txt e se encontra no diretório ráiz de C.
+
+Dado que no ms-dos nao se admite nomes grandes ( mais de 8 letras ) nem espaço, quando quero utilizar o nome do windows em ms-dos devo saber que este será reconvertido em seu nome curto. Este se obtem os seis primeiros carácteres válidos do nome, logo o sinal ~ (alt 126) e logo um número.
+
+Que comandos podemos utilizar;
+
+Comandos;
+
+Aqui estão alguns comandos utilizados em batch.
+
+ECHO [mensagem ou variável]
+
+Escreve na tela
+
+ECHO OFF
+
+Desativa as informações e confirmações feitas pelo sistema. Como “C:>”, “Tem certeza que deseja fazer tal?”….
+
+ECHO ON
+
+Ativa as informações e confirmações do sistema.
+
+ECHO.
+
+Pula uma linha
+
+SET variavel=valor
+
+Cria ou modifica uma variável (espaço reservado temporariamente na memória RAM para guardar algumas informações númericas, de caractéres, positivo/negativo entre outros. Não podem ter acento e devem começar com letra). Para chamar a variável posteriormente basta coloca-la entre “%”.
+
+Por exemplo:
+
+SET nome=Storm
+ECHO O nome dele é %nome%
+
+:nomedolink
+
+Nomeia um ponto do arquivo de lote permitindo avançar ou voltar a execução apartir daquele ponto.
+CLS
+Esse comando limpa toda a tela. CLear Screen.
+
+@[Comando]
+
+Desativa as informações e confirmações feitas pelo sistema apenas para esta linha.
+
+CODE
+IF [condição] (
+[ação]
+) ELSE (
+[ação2]
+)
+
+Esse é um comando condicional. “Se condição faça ação, senão faça ação2?.
+
+Por exemplo:
+
+CODE
+@ECHO OFF
+SET nome=Storm
+IF “%nome%”==”Storm” (
+ECHO Ola Storm!
+) ELSE (
+ECHO Ola %nome%!
+
+)
+GOTO [ponto]
+
+Avança ou volta a execução para um ponto do arquivo de lote.
+
+FOR /L %%variavel IN (inicio,incremento,fim) DO comando [parâmetro]
+
+Repete um comando varias vezes fazendo incrementações até o fim ser atingido.
+
+/L, é uma opção do comando FOR que faz as incrementações.
+%%variavel, é o nome da variável que vai ser incrementada.
+inicio, é o valor de inicio da variável que será incrementada.
+incremento, número que será somado a cada incrementação.
+fim, a repetição irá acabar quando o valor da variável atingir este valor.
+comando, um comando que será repetido.
+[parâmetro], o parâmetro do comando que será repetido.
+
+Por exemplo:
+
+CODE
+@ECHO OFF
+FOR /L %%a IN (1,1,5) DO ECHO O valor de A é %%a
+
+PAUSE
+
+Faz uma pausa e só volta quando o usuário apertar alguma tecla do teclado.
+REM [comentário]
+
+Este comando não faz absolutamente nada. Ele é utilizado para inserir comentarios nos arquivos.
+
+CODE
+PROMPT ->Serve para abrir o prompt do msdos. O mais habitual é $p$g que corresponde a;
+
+$p = mostrar trajeto atual
+$g = mostrar o separador >
+$l = mostrar o separador <
+$b = mostrar o separador |
+$q = mostrar o separador =
+$$ = mostrar o sinal $
+$t = mostrar a hora
+$d = mostrar a data
+$v = mostrar a versão do sistema
+$n = mostrar unidade atual
+$h = retroceso. Apaga o caracter previo
+$e = esc. Mostra o sinal corresponde a asci 27
+
+Por isso se colocarmos prompt $p$g o cursor mostra a tragetória de onde estamos e logo o separador. É possível o texto ( por exemplo prompt Meu_nome $p$g
+
+DATE
+Ver/por a data do sistema
+
+TIME
+Ver/por a hora do sistema
+
+VER[/font]
+Versão do sistema
+[font=Verdana]VOL unidade
+Volume da unidade especificada
+
+MEM parametros
+Mostra a memoria usada e livre no sistema
+/p -> mostra por programas
+/d -> por programas econtroladores
+/c -> classifica por tamanho
+
+Comandos de manejos de arquivos
+
+COPY origem destino
+Serve para copiar arquivos de um lugar a outro. A origem deve ser um trajeto completo de onde estão os arquivos a copiar. Se se omite se entende no diretório atual.
+
+O destino deve ser uma trajetória completa de onde desejar o/os arquivo(s)
+copy meuarquivo.txt c:\ (copiá-lo do diretorio raíz de C)
+copy meuarquivo.txt c:\meuarq.txt (copiá-lo e poder mudar o nome a meuarq.txt)
+copy *.txt a:\ (copiar todos os arquivos que tenham a extensão txt a unidade A)
+copy *.txt c:\meusdo~1 (copiar todos os que tenham a extensão txt ao diretório Meus documentos ( cujo o nome curto é meusdoc~1).
+
+DEL arquivo(s)
+
+Apagar arquivos selecionados
+
+del lol.txt (apaga o arquivo lol.txt no diretório atual)
+del c:\lol.txt (apaga o arquivo lol.txt que se encontra no c:\)
+del arquiv~1\*.*(apaga os arquivos que se encontram no diretório ‘Arquivos de programa’ cujo nome curto é arquiv~1( não se apaga as subpastas)
+
+DELTREE arquivo(s) -y
+
+Apaga a raíz especificada ( se é um arquivo coloca o arquivo, se é uma pasta coloca a pasta com todas as subpastas que incluam).
+Com o parametro -y não pergunta cada vez
+Este comando na realidade não é um comando sim uma utilidade incluída no ms-dos.
+
+DIR trajeto
+
+Mostra uma lista do conteúdo do diretório especificado no trajeto. Se não especificado nada, se entende o atual.
+Se coloca como parametro /W mostra uma lista resumida
+Se coloca como parametro /P mostra uma lista utilizando o filtro more.
+
+ATTRIB arquivo(s)-> Mostra os arquivos dos diretórios indicados e nesse caso permite mudá-los.
+
+os atributos são:
+
+H -> oculto. Se ativa com +h e desativa com -h
+R -> Leitura. Apenas leitura com +r, normal com -r
+S -> Sistema. Se ativa com +s e desativa com -s
+A -> Modificado. Para copias de segurança incrementadas. +a indica modificado e -a indica não modificado.
+Attrib arquivostorm.txt (mostrar os atributos do arquivostorm.txt)
+attrib *.exe +r +r +s (coloca todos os arquivos com extensão exe como ocultos, do sistema e a apenas lê)
+
+RENAME o REN nome1 nome2
+Mudar o nome do arquivo
+Ren nome1.txt nome2.txt
+
+TYPE arquiivo
+Mostra por pasta o conteúdo do arquivo;
+type nomedoarquivo.txt
+
+* Todos aqui listados são comandos de MS-DOS que foram criados especificamente para arquivos de lote. Se você precisar de mais detalhes sobre cada um deles basta digitar no MS-DOS (ou no prompt de comando do Windows) [comando]/? Todos comandos de MS-DOS também entram nesta lista incluindo chamadas de outros programas para este sistema.
+
+Comandos para programação
+
+EDIT arquivo
+
+Editor de textos utilizado para editar scripts e arquivos de texto.
+
+DEBUG arquivo parametros de arquivo
+Inicia o desassembler com o programa indicado que se colocam por parametros.
+
+CHOICE texto opções
+
+Se utiliza em programas bat para dar elegir a um usuario entre um conjunto de opções
+A resposta se devolve mediante a variável errorlevel
+choice Eleja uma opçao snc
+
+CODE
+if errorlevel 1 goto …
+if errorlevel 2 goto …
+if errorlevel 3 goto …
+
+Este exemplo mostra a lateral “eleja uma opção e da a elejer s (sim), n (não) o C (continuar) por exemplo as tres seguintes linhas especificam aonde deve sair o fluxo do programa seguido da tecla pulsada.
+
+Variáveis
+
+A condição DEFINED verifica se uma variável já foi definida. Por exemplo, se a variável “x” estiver definida, então o resultado será positivo, senão negativo.
+Veja como ficaria:
+
+CODE
+@ECHO OFF
+IF DEFINED x ( ECHO Positivo ) ELSE ( ECHO Negativo )
+
+Arquivos
+
+A condição EXIST verifica se existe algum arquivo. Por exemplo, se existir o arquivo “exemplo.bat” o resultado será positivo, senão negativo.
+Veja como ficaria:
+
+CODE
+@ECHO OFF
+IF EXIST exemplo.bat ( ECHO Positivo ) ELSE ( ECHO Negativo )
+
+Esta condição não para por aí. No sistema MS-DOS, você pode fazer uma “pesquisa” na pasta em que está por um arquivo digitando parte dele. Você usa “*” para indicar a(s) parte(s) que você não sabe. Por exemplo, se existir algum arquivo com a extensão “.bat” na pasta atual o resultado será positivo, senão negativo.
+Veja como ficaria:
+
+CODE
+@ECHO OFF
+IF EXIST *.bat (ECHO Positivo ) ELSE ( ECHO Negativo )
+
+X é igual a 6?
+
+@ECHO OFF
+CLS
+SET X=6
+IF “%X%” == “6? GOTO ok
+ECHO X não é igual a 6, X é igua a %X%
+GOTO saida
+:o k
+ECHO X é igual a 6
+:saida
+
+Na primeira linha. O “@” indica que não é para aparecer o comando que segue, no caso, “ECHO” (Comando que escreve na janela). Nesta linha, eu estou grosseiramente mandando o MS-DOS calar a boca (não falar nada sem eu mandar), pois se ECHO faz o computador “falar”, ECHO OFF faz o computador “desligar a boca” e com o @ no começo da linha, ele nem vai informar ao usuário que está parando de falar.
+Na segunda linha, o comando CLS faz o MS-DOS apagar toda a tela.
+Na terceira linha, como já foi explicado, faz a variável X=6.
+Na quarta linha, é uma linha condicional. Se “X” for igual à 6 vá para “ok”.
+Na quinta linha, é óbivio que X não vai ser igual a 6, então o MS-DOS vai “falar” X não é igual a 6, X é igua a [valor de x].
+Na sexta linha, ele irá para o ponto “saida” porque o resto é feito se X for igual a 6.
+Na sétima linha, está sendo definido o ponto “ok”, aquele ponto citado na quarta linha.
+Na oitava linha, X será igua a 6, então o MS-DOS vai dizer X é igual a 6.
+E na nona linha, é definido o ponto-final do processamento. Que é chamado na sexta linha, nada mais que isso, então o MS-DOS entende que o batch concluiu.
+
+Faça o teste
+
+1. Abra o Bloco de notas do Windows;
+2. Copie o exemplo acima e cole nele
+3. Salva-o como exemplo2.bat;
+4. Dê dois-clicks nele observe o que acontecerá;
+5. Agora experimente modificar a segunda linha por SET idade=n (troque n por algum número);
+6. Execute e veja o que acontece.
+
+Programando;
+
+Existe uma infinidade de comandos, como mostrei acima, e só usar a imaginação e podemos programar uma imensidão de finalidades, basta usar a criatividade e alguns comandos, para fechar esse tutorial, vou abordar alguns códigos feito por mim.
+
+Exemplo 1 (Básico)
+
+-fazer um loop que pegue todos os nomes dos diretorios
+-dentro de cada diretorio, renomear todos os arquivos com a extensão .txt para .zip
+
+CODE
+@echo off
+rem *.txt *.zip
+@exit
+
+Exemplo 2 (Intermediário/Avançado)
+
+CODE
+
+@echo off
+
+cls
+
+Echo Batch feito por Storm
+Echo .
+Echo .
+Echo Começar o programa?
+pause
+Echo .
+Echo .
+Echo .
+Echo Este programa cria uma chave de inicializaçao de um arquivo no windows através do menu.
+Echo .
+Echo .
+Echo [1] Deseja que esse arquivo se inicie no seu proximo logon?
+Echo [2] Deseja sair do programa?
+
+Set /p choice=Digite o numero correspodente a sua opçao:
+
+if “%choice%”==”2? goto op2
+if “%choice%”==”1? goto op1
+
+rem Bloco de declaraçao dos gotos
+
+:o p1 reg add “hklm\Software\Microsoft\Windows\CurrentVersion\Run” /v teste2 /t REG_SZ /d c:\path\batstorm.bat&goto proximo
+
+:o p2 exit
+
+:proximo
+Echo .
+Echo .
+Echo Chave criada com sucesso.
+Echo .
+Echo .
+Echo Agora mostrarei a chamada de um outro arquivo bat sem a interrupção do arquivo.
+
+Echo [1] Deseja chamar o arquivo batstorm.bat?
+Echo [2] Deseja sair do programa?
+
+Set /p choice=Digite o numero correspondente a sua opçao:
+
+if “%choice%”==”2? goto op3
+if “%choice%”==”1? goto op4
+
+:o p3 call batstorm.bat&goto proximo2
+
+:o p4 exit
+2 Respostas para “Aprenda a programar em .bat”
+
+   1.
+      UN!V3RSO H.4.C.K.3.R Diz:
+      20/10/08 às 19:43
+
+      Esse comandos do DOS ajudam na criação de vírus… Pricipalmente o comando DEL
+
+      Também ajudam… criar um arquivo de lote pra apagar arquivos temporários….e etc…
+
+      Mto bom saber mais comandos do DOS!
+
+      No que eu puder ajudar no site… meu email acima!!
+   2.
+      desvendandonovoshackers Diz:
+      20/10/08 às 19:43
+
+      valew cara pelo apoio
+
+Deixe uma resposta
+Clique aqui para cancelar a resposta.
+
+Nome (obrigatório)
+
+E-mail (will not be published) (obrigatório)
+
+Site
+
+Notificar-me os comentários mais recentes via e-mail.
+
+    *
+      ­
+          o Comunidade do Orkut
+    *
+      Tutoriais e Downloads
+          o A carta de Adeus de um Hacker
+          o Nuke pelo DOS
+          o PORTA 666
+          o A História Dos Vírus
+          o Aprenda a programar em .bat
+          o As Motivações dos Hackers
+          o Baixe Cracks e Seriais com apenas um Clique
+          o Burlando o Megaupload e o Rapidshare
+          o Camuflar links em textos ou imagens
+          o codigos em que se usa a tecla ALT
+          o Coisas que o google não conta
+          o Como Usar TurkoJan 4
+          o Criando o vírus Melissa
+          o Deixando o seu SERVER indetectável
+          o Detonando PC
+          o Download de video do youtube sem programa
+          o Entre no msn sem ter instalado no PC
+          o Evitando que programas espirem
+          o Evite Estragar a sua vista por causa do Pc
+          o Evite que peguem seu IP pelo MSN
+          o Faça o Windows dizer a você qual é a senha do Usuário
+          o Ferramentas para MSN
+          o Fliperama de Graça
+          o Google e seus segredos
+          o Guia do Hacker: Como Agem e como se Proteger
+          o Hacker Inside – Coleção completa
+          o Hacks para o MSN
+          o ID Server
+          o Inicie o Windows com uma mensagem
+          o Keygens
+          o Limpar Memoria Ram! Sem Reiniciar O Pc ( Deixe Seu Pc Mais Rapido )
+          o Mais um super pacotão Hacker, material excelente!
+          o Msn Hack v2.1
+          o Mudar IP com um clique !
+          o Netbus
+          o O Hack Definitivo para Redes wireless!(FBI)
+          o Orkut Spy Tools
+          o Os Seis Passos Para Iniciar
+          o Pegar IP pelo orkut
+          o Pegar IP usando IPGet
+          o Que Tal experimentar o futuro hoje?
+          o Reativando Perfil Excluido
+          o RECUPERAR ORKUT HACKEADO!
+          o Registro do Windows
+          o Resource Hacker
+          o Roubar orkut por e-mail não verificado
+          o Sites para download de drivers
+          o Tirar alguns virus do pc sem anti virus
+          o Tirar Vírus de Seu Msn e Orkut
+          o Torpedo sms GRATIS!!!
+          o Transforme Torrent Em Link Direto
+          o Turkojan 4
+          o Unsercure – Descubra Senhas de E-mail’s
+          o Vírus nunca mais
+          o Ver as comunidades que algum Perfil é dono
+          o Ver cameras de segurança pelo google
+          o Wireless – Como Driblar a Segurança
+    *
+
+Faça um blog grátis em WordPress.com Tema: Black Letterhead por Ulysses Ronquillo.

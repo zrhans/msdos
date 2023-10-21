@@ -1,0 +1,268 @@
+'CR1000 Series Datalogger
+'-------------------------------------------------------------
+' UNIVERSIDADE FEDERAL DE SANTA MARIA
+' LABORATORIO DE MICROMETEOROLOGIA
+'
+' PROGRAMA PARA MEDIR FLUXO DE CO2 
+' EM CULTURA DE ARROZ IRRIGADO
+' projeto LUMET  - CACHOERIA DO SUL - RS
+'
+' data:10-10-09
+' programa: CACHOEIRA-09.cr1
+' dados: 
+' CS_110.DAT (ALTA FREQUENCIA)
+' CS_111.DAT (BAIXA FREQUENCIA)
+' Escrito por: Hans
+'
+' obs: orientacao do anemometro sonico (componente u>0 Norte)
+'  	   TABLES:  CS_110 <- 10HZ
+'		            CS_111 <- <5min>
+'
+' Frequencia de medidas: 10Hz
+'________________________________________________________________
+'                         ESQUEMA DE LIGACAO
+'================================================================
+' Anemometro sonico - CSAT3                               SN:0656
+' u - VERDE             - SDM-C1
+' v - BRANCO            - SDM-C2
+' w - MARROM            - SDM-C3
+'     VERMELHO          12V
+'     MALHA             SHIELD
+'     PRETO             G
+'
+' SDM: 5
+'
+' POSICAO: 2,5m
+'_________________________________________________________________
+' Analisador de gas - LICOR -  modelo Li-7500          SN:75B-0415
+' CINZA                 - SDM-C1
+' AZUL                  - SDM-C2
+' MARROM                - SDM-C3
+' BRANCO                G
+' PRETO                 G
+'
+' SDM: 7
+'
+' POSICAO: 2,5m
+'_________________________________________________________________
+' Saldo radiometro - NET - Modelo NR-Lite-kipp&Zonen     SN:021011
+' NET	 	BRANCO          - DIFF 1 (1H)
+'       VERDE           - DIFF 1 (1L)
+'       MALHA           G
+'
+' Fator: 14.0 uV/Wm^2 : 71.4285 (saida em W/m^2)
+'
+' Posicao: 2,5m
+'
+'__________________________________________________________________
+' Radiacao Global - Piranometro - Modelo CMB6 - Kipp&Zonen SN:025943
+' RAD   VERMELHO       - DIFF 2 (2H)
+'       AZUL           - DIFF 2 (2L)
+'       MALHA          G
+'       PRETO          G
+'       BRANCO         G
+'
+' Fator: 10.11 uV/Wm^2 : 98.912 (saida em W/m^2)
+'
+' Posicao: 2,5m 
+'
+'__________________________________________________________________
+' Radiacao fotossinteticamente ativa - PAR - Kipp&Zonen  SN:020327
+' PAR    BRANCO       - DIFF 3 (3H)
+'        VERDE        - DIFF 3 (3L)
+'        MALHA        G 
+'
+' Fator: 4.79 umol/Wm2 : 44.2751 W/m2 (saida em W/m^2)
+' 
+' Posicao: 1m
+' 
+' ________________________________________________________________
+' Fluxo de Calor no Solo - Fluximetro Modelo - HFP01SC     SN:00837
+'
+' F_SOLO BRANCO         - DIFF 4 (4H)
+'        VERDE          - DIFF 4 (4L)
+'        MALHA          G
+'
+' Fator: 63.20 uV/(W/m^2) : 15.823 (saida em W/m^2)
+'
+' Posicao: -0.02m
+'
+'__________________________________________________________________
+' Temperatura no solo  - Termopar tipo E - TCAV-L        SN:
+' TSOLO   ROXO(PURPLE)   DIFF 5 (5H)
+'         VERMELHO      DIFF 5 (5L)
+'         MALHA         G
+' 
+' Posicao: -0.02m
+' _________________________________________________________________
+'__________________________________________________________________
+' Temperatura no solo - T108 Temperature Probe measurement SN(ORDER):112921
+' TSOLO50   VERMELHO      SE 6 (5H)
+'         ROXO          G
+'         PRETO         VX1  
+'         MALHA         G
+' 
+' Posicao: -0.50m
+' _________________________________________________________________
+'__________________________________________________________________
+' Precipitacao  - TB4 Rain Gauge measurement Rain_mm      SN: 02-75
+' CHUVA  PRETO     			P1
+'        MALHA					G
+'        BRANCO					G
+' 
+' Posicao: Xm
+' _________________________________________________________________
+'__________________________________________________________________
+
+' nao disponivel
+' Conteudo de agua no solo - CS616 water content reflectometer
+' H2OSOLO VERDE          - SE 12
+'         LARANJA        - C1 (porta de controle 1)
+'         PRETO          G
+'         VERMELHO       12V
+'         MALHA          G
+'
+' Obs: H2Osolo=-0.0663+(-0.0063*PA_us)+(0.0007*PA_us^2)
+'      onde H2OSOLO e o conteudo volumetrico de agua no solo
+'      em termos fracionario.
+'      Ex: 0.20 = 20% de conteudo volumetrico de agua no solo
+'
+' Posicao: -0.025m
+'_________________________________________________________________
+
+Public PTemp, batt_volt, NET, RAD, PAR, FSOLO, H2OSOLO, TSOLO, PA_us, Pmb
+Public Tsolo50, Chuva
+Public CSAT(5), LICOR(4)
+
+
+Alias CSAT(1) = u
+Alias CSAT(2) = v
+Alias CSAT(3) = w
+Alias CSAT(4) = tsonico
+Alias CSAT(5) = diagCSAT
+
+
+
+Alias LICOR(1) = CO2
+Alias LICOR(2) = H2O
+Alias LICOR(3) = Press
+Alias LICOR(4) = diaglicor
+
+
+' *******unidades*******
+
+Units u,v,w = m/s
+Units tsonico,tsolo,tsolo50 = Deg C
+Units diagCSAT, diaglicor = unitless
+Units net, rad, PAR, Fsolo = W/m^2
+Units Press = kPa
+Units CO2 = umol/m^3
+Units H2O = mmol/m^3
+Units Chuva = mm
+Units PA_uS = uSec 
+Units Pmb=mbar
+
+
+'*******constantes*******
+Const SCAN_INTERVAL  = 100 'ms
+Const SDM_PER = 30 'SDM Clock speed
+
+
+'*******TABELA DE ALTA FREQUENCIA (10Hz)*******
+
+DataTable (CS_110,1,-1)
+	DataInterval (0,5,Min,100)
+'Descomentar para salvar no cartao   CardOut(0,-1)
+	Sample (1,u,IEEE4)
+	Sample (1,v,IEEE4)
+	Sample (1,w,IEEE4)
+	Sample (1,Tsonico,IEEE4)
+	Sample (1,diagCSAT,IEEE4)
+	
+	Sample (1,CO2,IEEE4)
+	Sample (1,H2O,IEEE4)
+	Sample (1,Pmb,IEEE4)
+	Sample (1,diaglicor,IEEE4)
+	
+	Sample (1,NET,IEEE4)
+	Sample (1,RAD,IEEE4)
+	Sample (1,PAR,IEEE4)
+	
+	Sample (1,FSOLO,IEEE4)
+	Sample (1,TSOLO,IEEE4)
+	Sample (1,H2OSOLO,FP2)
+	Sample (1,Tsolo50,IEEE4)
+	
+EndTable
+
+DataTable(CS_111,True,-1)
+	DataInterval(0,5,Min,10)
+	
+	Totalize(1,Chuva,FP2,False)
+	Average(1,u,FP2,False)
+	Average(1,v,FP2,False)
+	Average(1,w,FP2,False)
+	Average(1,tsonico,FP2,False)
+	Average(1,CO2,FP2,False)
+	Average(1,H2O,FP2,False)	
+	Average(1,Pmb,FP2,False)
+	Average(1,RAD,FP2,False)
+	Average(1,TSOLO,FP2,False)
+	Average(1,Tsolo50,FP2,False)
+	Average(1,FSOLO,FP2,False)
+	Minimum(1,Batt_Volt,FP2,False,False)
+	Average(1,PTemp,FP2,False)
+	
+EndTable
+
+'Define Subroutines
+'Sub
+	'EnterSub instructions here
+'EndSub
+
+'Main Program
+BeginProg
+	Scan (100,mSec,10,0)
+		PanelTemp (PTemp,250)
+		Battery (Batt_volt)
+		
+		'CSAT
+		CSAT3 (u,1,5,91,10)
+		
+		'LICOR
+		CS7500 (CO2,1,7,6)
+		'CONVERSAO DE PRESSAO kPa p/ mb
+		Pmb = press*10.0
+		
+		'RADIACOES
+		'radiacao liquida
+		voltdiff (NET,1,mV25,1,True,0,250,71.4285,0)
+		'radiacao global
+		voltdiff (RAD,1,mV25,2,True,0,250,106.157,0)
+		if RAD<0.0 then RAD=0.0
+		
+		'radiacao fotossinteticamente ativa         
+		voltdiff (PAR,1,mV25,3,True,0,250,44.2751,0)
+		if PAR<0.0 then PAR=0.0
+		
+		'MEDIDAS NO SOLO
+		'fluximetro (fluxo calor no solo)
+		Voltdiff (FSOLO,1,mV25,4,True,0,250,15.823,0)
+		'temperatura no solo   (TERMOPAR TIPO E)
+		TCdiff (TSOLO,1,mV25,5,TypeE,PTemp,True,0,250,1,0)
+	  '108 Temperature Probe measurement T108_C:
+		Therm108(Tsolo50,1,11,1,0,_60Hz,1.0,0.0)
+		'TB4 Rain Gauge measurement Rain_mm:
+		PulseCount(Chuva,1,1,2,0,0.254,0)
+		
+		'DESCOMENTAR QUANDO TIVER    conteudo de agua no solo
+		'PortSet(1,1)
+		'PeriodAvg (PA_us,1,mV5000,11,0,0,100,10,1.0,0)
+		'PortSet(1,0)
+		'H2Osolo=-0.0663+(-0.0063*PA_us)+(0.0007*PA_us^2)
+		
+		'Call Output Tables
+		CallTable CS_110
+		CallTable CS_111
+	NextScan
+EndProg

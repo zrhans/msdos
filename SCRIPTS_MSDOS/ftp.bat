@@ -1,0 +1,1 @@
+c:\WINDOWS\system32\ftp.exe -s:C:\Users\hans\Desktop\ftp.cfg
